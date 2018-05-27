@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <with-subscription-blog></with-subscription-blog>
-    <with-subscription-comment></with-subscription-comment>
+    <with-subscription :selectData="(DataSource) => DataSource.getBlogPost(blogPostId)">
+      <blog-post slot-scope="withSubscriptionScope" :id="blogPostId" :data="withSubscriptionScope.data"></blog-post>
+    </with-subscription>
+    <with-subscription :selectData="(DataSource) => DataSource.getComments(blogPostId)">
+      <comments-list slot-scope="withSubscriptionScope" :id="blogPostId" :data="withSubscriptionScope.data"></comments-list>
+    </with-subscription>
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
-import CommentList from './components/CommentsList';
-import BlogPost from './components/BlogPost';
-import withSubscription from './hocs/withSubscription-jsx';
-import DataSource from './store/source';
-
-// let blog;
-// let comment;
+import commentsList from './components/CommentsList';
+import blogPost from './components/BlogPost';
+import withSubscription from './components/WithSubscription';
 
 export default {
   name: 'app',
@@ -23,8 +22,9 @@ export default {
     };
   },
   components: {
-    withSubscriptionBlog: Vue.extend(withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), DataSource.getBlogList())),
-    withSubscriptionComment: Vue.extend(withSubscription(CommentList, (DataSource, props) => DataSource.getComments(props.id))),
+    commentsList,
+    blogPost,
+    withSubscription
   },
   mounted() {
     // blog = withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), {id: this.blogPostId});

@@ -6,9 +6,9 @@
 
 <script>
 export default {
-    props: {
-        data: [Array, Object],
-        id: 1,
-    },
+    name: 'comments-list',
+    props: [
+        'data',
+    ],
 };
 </script>
