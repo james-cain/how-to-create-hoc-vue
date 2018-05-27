@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <with-subscription-blog>
-      <template slot-scope="scopeData">
-        {{scopeData.allData}}
-      </template>
-    </with-subscription-blog>
+    <with-subscription-blog></with-subscription-blog>
     <with-subscription-comment></with-subscription-comment>
   </div>
 </template>
@@ -18,7 +14,6 @@ import DataSource from './store/source';
 
 // let blog;
 // let comment;
-const blogPostId = 2;
 
 export default {
   name: 'app',
@@ -29,7 +24,7 @@ export default {
   },
   components: {
     withSubscriptionBlog: Vue.extend(withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), DataSource.getBlogList())),
-    withSubscriptionComment: Vue.extend(withSubscription(CommentList, (DataSource, props) => DataSource.getComments(props.id), {id: blogPostId})),
+    withSubscriptionComment: Vue.extend(withSubscription(CommentList, (DataSource, props) => DataSource.getComments(props.id))),
   },
   mounted() {
     // blog = withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), {id: this.blogPostId});

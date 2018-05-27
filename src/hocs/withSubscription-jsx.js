@@ -1,9 +1,9 @@
 import DataSource from '../store/source';
 import Vue from 'vue';
 
+/* eslint no-console: 0 */
 const withSubscription = (component, selectData, allData) => {
     const inheriteProps = component.props || [];
-
     return Vue.component('withSubscription', {
         render(createElement) {
             return createElement(component, {
@@ -12,8 +12,17 @@ const withSubscription = (component, selectData, allData) => {
                     allData,
                     data: this.fetchData,
                 },
-                scopeSlots: {
-                    default: props => createElement('span', props.allData),
+                scopedSlots: {
+                    default: props => createElement(
+                                        'ul',
+                                        props.allData.map((item, index) => createElement('li', {
+                                            on: {
+                                                click: this.selectedChange.bind(this, index + 1)
+                                            },
+                                            style: {
+                                                color: 'red',
+                                            }
+                                        }, item))),
                 },
             });
         },
@@ -27,6 +36,11 @@ const withSubscription = (component, selectData, allData) => {
             };
         },
         methods: {
+            selectedChange(id) {
+                this.fetchData = selectData(DataSource, {
+                    id,
+                });
+            },
             handleChange() {
                 this.fetchData = selectData(DataSource, inheriteProps);
             },

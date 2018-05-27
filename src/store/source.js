@@ -28,10 +28,11 @@ export default {
         return blogArr;
     },
     addChangeListener(listener) {
-        const intervalId = setInterval(() => {
-            listener();
-        }, 1000);
-        listeners[listener] = intervalId;
+        listener();
+        // const intervalId = setInterval(() => {
+        //     listener();
+        // }, 1000);
+        // listeners[listener] = intervalId;
     },
     removeChangeListener(listener) {
         clearInterval(listeners[listener]);
