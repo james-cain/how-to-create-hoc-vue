@@ -1,17 +1,39 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <with-subscription-blog>
+      <template slot-scope="scopeData">
+        {{scopeData.allData}}
+      </template>
+    </with-subscription-blog>
+    <with-subscription-comment></with-subscription-comment>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Vue from 'vue';
+import CommentList from './components/CommentsList';
+import BlogPost from './components/BlogPost';
+import withSubscription from './hocs/withSubscription-jsx';
+import DataSource from './store/source';
+
+// let blog;
+// let comment;
+const blogPostId = 2;
 
 export default {
   name: 'app',
+  data() {
+    return {
+      blogPostId: 2,
+    };
+  },
   components: {
-    HelloWorld
+    withSubscriptionBlog: Vue.extend(withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), DataSource.getBlogList())),
+    withSubscriptionComment: Vue.extend(withSubscription(CommentList, (DataSource, props) => DataSource.getComments(props.id), {id: blogPostId})),
+  },
+  mounted() {
+    // blog = withSubscription(BlogPost, (DataSource, props) => DataSource.getBlogPost(props.id), {id: this.blogPostId});
+    // comment = withSubscription(CommentList, (DataSource, props) => DataSource.getComments(props.id), {id: this.blogPostId});
   }
 }
 </script>
