@@ -86,8 +86,33 @@ module.exports = {
 
     css: {
         // extract CSS in components into a single CSS file(only in production)
-        // 
+        // can also be an object of options to pass to extract-text-webpack-plugin
         extract: true,
 
-    }
+        // enable CSS source maps?
+        sourceMap: false,
+
+        // pass custom options to pre-processor loaders
+        // sass-loader, use { sass: { ... } }
+        loaderOptions: {},
+
+        // Enable CSS modules for all css/pre-processor files.
+        // This option does not affect *.vue files
+        modules: false
+    },
+
+    // options for the PWA plugin
+    pwa: {},
+
+    devServer: {
+        open: process.platform === 'darwin',
+        host: '0.0.0.0',
+        port: 8080,
+        https: false,
+        hotOnly: false,
+        proxy: null,
+        before: app => {}
+    },
+
+    pluginOptions: {}
 }
